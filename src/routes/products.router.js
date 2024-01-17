@@ -44,7 +44,7 @@ router.get("/api/products", async (req, res) => {
     }
   });
   //AGREGAR PRODUCTOS
-  router.post("/api/products", (req,res)=>{
+  router.post("/api/products", async (req,res)=>{
     try{
         pml.addProduct(req.body);
         res.status(200).send("Producto agregado con exito");
@@ -53,7 +53,7 @@ router.get("/api/products", async (req, res) => {
     }
   });
 //BORRAR UN PRODUCTO
-  router.delete("/api/products/:pid", (req,res)=>{
+  router.delete("/api/products/:pid",async  (req,res)=>{
     try{
         const productId = parseInt(req.params.pid);
         pml.deleteProduct(productId);
@@ -63,7 +63,7 @@ router.get("/api/products", async (req, res) => {
     }
   });
 //MODIFICAR UN PRODUCTO
-  router.put("/api/products/:pid", (req,res)=>{
+  router.put("/api/products/:pid", async (req,res)=>{
     try{
         const productId = parseInt(req.params.pid);
         pml.updateProduct(productId, req.body);
