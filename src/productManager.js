@@ -5,41 +5,37 @@ class productManager {
   constructor(archivo) {
     this.path = archivo;
 
-    this.products = [];
+    //this.products = [];
   }
   static id = 0;
- 
-  addProduct = async (title, description, price, thumbnail, code, stock) => {
-    try {
-        const colecciones = await this.getProducts();
-        const codeRep = colecciones.some((i) => i.code === code);
-
-        if (codeRep) {
-            console.log(`Error, code ${code} está repetido.`);
-        } else {
-            const newProduct = { title, description, price, thumbnail, code, stock };
-
-            if (Object.values(newProduct).every((value) => value !== undefined)) {
-                productManager.id++;
-                this.products.push({
-                    ...newProduct,
-                    id: productManager.id,
-                });
-                await fs.writeFile(this.path, JSON.stringify(this.products));
-                console.log(`Producto "${title}" agregado con éxito.`);
-            } else {
-                console.log(`Por favor, completar todos los campos del producto "${title}".`);
-            }
-        }
-    } catch (error) {
-        console.error(error);
+  addProduct = async ({title, description, price, thumbnail, code, stock, status, category}) => {
+    // ver codigo repetido
+    let colecciones = await this.getProducts();
+    let codeRep = colecciones.some((i) => i.code === code);
+    if (codeRep) {
+      console.log(`Error, code ${code} esta repetido.`);
+    } else {
+      const newProduct = { title:title, description:description, price:price, thumbnail:thumbnail, code:code, stock:stock,  status:status, category:category };
+      // Comprueba que todos los campos sean obligatorios.
+            console.log(newProduct)
+      if (!Object.values(newProduct).includes(undefined)) {
+        productManager.id++; // Con cada producto nuevo, aumenta el ID en uno, de esta forma no se repiten.
+        colecciones.push({
+          ...newProduct,
+          id: productManager.id,
+        });
+        await fs.writeFile(this.path, JSON.stringify(colecciones));
+      } else {
+        console.log(`Por favor, completar los campos faltantes del producto "${title}"`);
+      }
     }
-};
+  };
 
   getProducts = async () => {
     try {
         let colecciones = await fs.readFile(this.path, "utf-8");
         return JSON.parse(colecciones);
+        
     } catch (error) {
         if (error.code === 'ENOENT') {
             // Si el archivo no existe, retornar un array vacío
@@ -74,7 +70,7 @@ class productManager {
   updateProduct = async (id, campo, valor) => {
     try {
         const colecciones = await this.getProducts();
-        const producto = colecciones.find((i) => i.id === id);
+        const producto = colecciones.find((i) => i.id == id);
 
         if (producto) {
             producto[campo] = valor;
@@ -89,9 +85,6 @@ class productManager {
 };
 
 }
-
-// Se agregan productos.
-const producto = new productManager("./listadoDeProductos.json");
 
 //exportar
 module.exports = productManager;

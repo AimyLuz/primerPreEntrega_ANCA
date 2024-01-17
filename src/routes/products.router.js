@@ -28,10 +28,9 @@ router.get("/api/products", async (req, res) => {
   });
 
 
-  router.get("/products/:pid", async (req, res) => {
+  router.get("/api/products/:pid", async (req, res) => {
     try {
-      let productId = req.params.pid;
-      console.log(req.params.pid);
+      let productId = parseInt(req.params.pid);
       // Llamado a productManager
   
       let producto = await pml.getProductById(productId);
