@@ -7,7 +7,7 @@ const cm = new cartManager("./carrito.json")
 
 
 //rutas
-
+//ver carrito
 router.get("/api/carts", async (req, res) => {
 	try {
 		const carts = await cm.getCarts();
@@ -17,7 +17,7 @@ router.get("/api/carts", async (req, res) => {
 	}
 });
 
-// 
+// buscar mi carrito
 router.get("/api/carts/:cid", async (req, res) => {
 	try {
 		const cartId = parseInt(req.params.cid);
