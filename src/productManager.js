@@ -8,6 +8,9 @@ class productManager {
     //this.products = [];
   }
   static id = 0;
+  
+  
+  
   addProduct = async ({title, description, price, thumbnail, code, stock, status, category}) => {
     // ver codigo repetido
     let colecciones = await this.getProducts();
@@ -19,10 +22,12 @@ class productManager {
       // Comprueba que todos los campos sean obligatorios.
             console.log(newProduct)
       if (!Object.values(newProduct).includes(undefined)) {
-        productManager.id++; // Con cada producto nuevo, aumenta el ID en uno, de esta forma no se repiten.
+        // Encontrar el ID máximo y sumarle 1
+        const newId = colecciones.reduce((idMax, product) => idMax > product.id ? idMax : product.id, 0) + 1
+        productManager.id++; // Con cada producto nuevo, aumenta el ID en la clase en uno, de esta forma no se repiten.
         colecciones.push({
           ...newProduct,
-          id: productManager.id,
+          id: newId,
         });
         await fs.writeFile(this.path, JSON.stringify(colecciones));
       } else {
