@@ -11,7 +11,7 @@ class productManager {
   
   
   
-  addProduct = async ({title, description, price, thumbnail, code, stock, status, category}) => {
+  addProduct = async ({title, description, price, thumbnail = [], code, stock, status = true, category}) => {
     // ver codigo repetido
     let colecciones = await this.getProducts();
     let codeRep = colecciones.some((i) => i.code === code);
