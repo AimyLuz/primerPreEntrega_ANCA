@@ -1,6 +1,6 @@
 const fs = require("fs").promises;
 const cartManager =require("./productManager")
-const pml = cartManager("./listadoDeProductos.json")
+const pml = new cartManager("./listadoDeProductos.json")
 class productManager {
 	constructor(archivo) {
 		(this.path = archivo), (this.#id = 0);
@@ -65,7 +65,7 @@ updateCart = async (cartId, productId) => {
         if (productCartSelected) {
             productCartSelected.quantity += 1;
         } else {
-            cartSelected.products.push({...{product: productId, quantity: 1}});
+            cartSelected.products.push({...{productId: productId, quantity: 1}});
         }
         let newCarts = colectionJSONCarts.filter((cart) => cart.id !== cartId);
         newCarts.push({...cartSelected});

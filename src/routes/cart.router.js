@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const cartManager =require("../cartManager")
-const cm = cartManager("./carrito.json")
+const cm = new cartManager("./carrito.json")
 
 
 
@@ -17,7 +17,7 @@ router.get("/api/carts", async (req, res) => {
 	}
 });
 
-// -  -
+// 
 router.get("/api/carts/:cid", async (req, res) => {
 	try {
 		const cartId = parseInt(req.params.cid);
@@ -32,7 +32,7 @@ router.get("/api/carts/:cid", async (req, res) => {
 	}
 });
 
-// 
+//  comenzar carrito
 router.post("/api/carts", (req, res) => {
 	try {
 		cm.addCart(req.body);
@@ -42,7 +42,7 @@ router.post("/api/carts", (req, res) => {
 	}
 });
 
-// 
+// agregar productos al carrito
 router.post("/api/carts/:cid/product/:pid", async (req, res) => {
 	try {
 		const cartId = parseInt(req.params.cid);
