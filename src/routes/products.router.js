@@ -1,8 +1,7 @@
-const express = require('express');
+import express from "express";
 const router = express.Router();
-const ProductManager = require("../productManager");
-const pml = new ProductManager ("./listadoDeProductos.json")
-
+import productManager from "../productManager.js";
+const pml = new productManager ("./listadoDeProductos.json")
 
 
 
@@ -72,5 +71,5 @@ router.get("/api/products", async (req, res) => {
     }
   } );
 
-  module.exports = router;
+  export default router;
 

@@ -1,7 +1,10 @@
-const fs = require("fs").promises;
-const cartManager =require("./productManager")
-const pml = new cartManager("./listadoDeProductos.json")
-class productManager {
+import fileSystem from "fs";
+import productManager from "./productManager.js";
+
+const pml = new productManager("./listadoDeProductos.json")
+const fs = fileSystem.promises;
+
+class cartManager {
 	constructor(archivo) {
 		(this.path = archivo), (this.#id = 0);
 	}
@@ -75,4 +78,4 @@ updateCart = async (cartId, productId) => {
     }
 }; }
 
-module.exports = productManager;
+export default cartManager;
