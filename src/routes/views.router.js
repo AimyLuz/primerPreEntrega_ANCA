@@ -1,7 +1,7 @@
 import express from 'express';
 
 import productManager from '../productManager.js';
-const pml = new productManager("./src/listaDeProductos.json");
+const pml = new productManager("./src/listadoDeProductos.json");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
