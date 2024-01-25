@@ -25,24 +25,28 @@ form.addEventListener('submit', ev => {
 })
 
 //Escucho evento para renderizar lista de productos
-socket.on('products', products => {
-    console.log('escuchando')
-  while (catalogue.firstChild) {
-    catalogue.removeChild(catalogue.firstChild)
-  }
-  products.forEach(product => {
-    const content = `<div class="text-center card" style="width: 16rem; margin: 10px">
-    <div class="card-header">Categoría: ${product.category}</div>
-    <div class="card-body">
-      <div class="card-title h5">${product.title}</div>
-      <div class="mb-2 text-muted card-subtitle h6">Precio: $${product.price}</div>
-      <p class="card-text">${product.description}</p>
-    </div>
-    <div class="text-muted card-footer">Stock disponible: ${product.stock} unidades</div>
-  </div>`
-    catalogue.innerHTML += content
-  })
-})
+socket.on('products', (data) => {
+    console.log('Datos recibidos:', data);
+    if (data && Array.isArray(data.products)) {
+        while (catalogue.firstChild) {
+          catalogue.removeChild(catalogue.firstChild);
+        }
+        data.products.forEach((product) => {
+            const content = `<div class="text-center card" style="width: 16rem; margin: 10px">
+            <div class="card-header">Categoría: ${product.category}</div>
+            <div class="card-body">
+              <div class="card-title h5">${product.title}</div>
+              <div class="mb-2 text-muted card-subtitle h6">Precio: $${product.price}</div>
+              <p class="card-text">${product.description}</p>
+            </div>
+            <div class="text-muted card-footer">Stock disponible: ${product.stock} unidades</div>
+          </div>`
+            catalogue.innerHTML += content
+          })
+    } else {
+        console.error('La propiedad "products" no es un array:', data.products);    }
+  
+});
 
 //Escucho evento de confirmacion de producto agregado
 socket.on('success', () => {
@@ -63,3 +67,5 @@ socket.on('error', () => {
     icon: 'error'
   });
 })
+
+
