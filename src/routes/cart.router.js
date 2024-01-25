@@ -3,7 +3,7 @@ import cartManager from "../cartManager.js";
 
 
 const router = express.Router()
-const cm = new cartManager("./carrito.json")
+const cm = new cartManager("./src/carrito.json")
 
 
 

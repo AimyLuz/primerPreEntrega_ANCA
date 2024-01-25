@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import productManager from "../productManager.js";
-const pml = new productManager ("./listadoDeProductos.json")
+const pml = new productManager ("./src/listadoDeProductos.json")
 
 
 

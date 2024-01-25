@@ -5,6 +5,8 @@ import viewsRouter from './routes/views.router.js'
 import { Server } from "socket.io"
 import routerCart from "./routes/cart.router.js"
 import routerProducts from "./routes/products.router.js"
+
+
 const app = express();
 const httpServer = app.listen(8080, () => console.log("Server running in port 8080"));
 //const routerCart = require("./routes/cart.router.js");
