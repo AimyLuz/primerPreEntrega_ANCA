@@ -74,22 +74,28 @@ class productManager {
     await fs.writeFile(this.path, JSON.stringify(listaNueva));
   };
 
-  updateProduct = async (id, campo, valor) => {
+  updateProduct = async (id, updates) => {
     try {
-        const colecciones = await this.getProducts();
-        const producto = colecciones.find((i) => i.id == id);
-
-        if (producto) {
-            producto[campo] = valor;
-            await fs.writeFile(this.path, JSON.stringify(colecciones));
-            console.log(`Producto con ID ${id} actualizado con éxito.`);
-        } else {
-            console.log(`No se encontró el producto con ID: ${id}`);
-        }
+      const colecciones = await this.getProducts();
+      const producto = colecciones.find((i) => i.id == id);
+  
+      if (producto) {
+        // Actualizar solo los campos proporcionados en el cuerpo de la solicitud
+        Object.keys(updates).forEach((campo) => {
+          if (producto.hasOwnProperty(campo)) {
+            producto[campo] = updates[campo];
+          }
+        });
+  
+        await fs.writeFile(this.path, JSON.stringify(colecciones));
+        console.log(`Producto con ID ${id} actualizado con éxito.`);
+      } else {
+        console.log(`No se encontró el producto con ID: ${id}`);
+      }
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
-};
+  };
 
 }
 

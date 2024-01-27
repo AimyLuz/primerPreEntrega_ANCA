@@ -53,7 +53,7 @@ router.get("/api/products", async (req, res) => {
 //BORRAR UN PRODUCTO
   router.delete("/api/products/:pid",async  (req,res)=>{
     try{
-        const productId = parseInt(req.params.pid);
+        let productId = parseInt(req.params.pid);
         pml.deleteProduct(productId);
         res.status(200).send("Producto borrado con exito");
     }catch (error){
@@ -61,15 +61,24 @@ router.get("/api/products", async (req, res) => {
     }
   });
 //MODIFICAR UN PRODUCTO
-  router.put("/api/products/:pid", async (req,res)=>{
-    try{
-        const productId = parseInt(req.params.pid);
-        pml.updateProduct(productId, req.body);
-        res.status(200).send("Actualización de producto exitosa")
-    }catch (error){
-        res.status(500).send("Error al actualizar el producto")
+router.put("/api/products/:pid", async (req, res) => {
+  try {
+    let productId = parseInt(req.params.pid);
+    // Obtener los datos específicos a actualizar del cuerpo de la solicitud
+    const { updates } = req.body;
+    // Verificar que se proporcionen actualizaciones
+    if (!updates || Object.keys(updates).length === 0) {
+      return res.status(400).send("Debe proporcionar al menos un campo para la actualización.");
     }
-  } );
+    // Llamar al método updateProduct con los dos parámetros requeridos
+    await pml.updateProduct(productId, updates);
+    let producto = await pml.getProductById(productId);
+    res.status(200).send("Actualización de producto exitosa");
+    console.log(producto);
+  } catch (error) {
+    res.status(500).send("Error al actualizar el producto");
+  }
+});
 
   export default router;
 
